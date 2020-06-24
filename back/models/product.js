@@ -13,7 +13,7 @@ const Product = mongoose.model('Product', productSchema);
 
 
 //test data 생성
-const kinds = ['알비노_', '그린_', '브라운_', '판타스틱', '민트']
+const kinds = ['알비노_', '그린_', '브라운_', '판타스틱_', '민트_']
 const productDescriptionAdd = ['가장 인기', '노멀', '인기&노멀', '신상품', '신상품'];
 for (let i = 0; i < 5; i++) {
     const productName = kinds[i].concat('팩맨');
