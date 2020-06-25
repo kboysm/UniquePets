@@ -14,10 +14,10 @@
             <button>snake</button>
           </li>
           <li>
-            <button>hamster</button>
+            <button>turtle</button>
           </li>
           <li>
-            <button>Supplies</button>
+            <button>scorpion</button>
           </li>
         </ul>
       </nav>
@@ -71,7 +71,11 @@ export default {
 * {
   box-sizing: border-box;
 }
-
+.home {
+  display: block;
+  height: 200%;
+  overflow: visible;
+}
 .hitItem {
   display: flex;
   flex-direction: row;
@@ -95,22 +99,24 @@ header {
   text-align: center;
   font-size: 35px;
   color: white;
+  opacity: 0.8;
 }
 
 /* Create two columns/boxes that floats next to each other */
 section {
   float: left;
-  width: 30%;
+  width: 15%;
   height: 300px; /* only for demonstration, should be removed */
 
   padding: 20px;
+  position: -webkit-sticky;
   position: sticky;
-  left: 10px;
-  top: 250px;
+
+  top: 4rem;
 }
 
 section ul {
-  height: 300px;
+  height: 200px;
   background: #fff;
   border-radius: 5px;
   text-align: center;
