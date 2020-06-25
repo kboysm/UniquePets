@@ -3,14 +3,13 @@
     <img @click="modal = !modal" id="myImg" :src="product.productImage" alt="testImages" />
     <div class="content">
       <h3>{{product.productName}}</h3>
-      <button>상세보기</button>
     </div>
     <div v-if="modal" id="myModal" class="modal">
       <span @click="modal=!modal" class="close">&times;</span>
       <img class="modal-content" :src="product.productImage" id="img01" />
       <p>{{product.productName}}</p>
       <br />
-      <p>{{product.productDescription}}</p>
+      <p v-html="product.productDescription"></p>
       <br />
       <p>category : {{product.productCategory}}</p>
       <div id="caption"></div>
@@ -23,11 +22,14 @@ export default {
   data() {
     return {
       modal: false
-    };
+    }
   },
   methods: {},
-  created() {}
-};
+  created() {
+    // console.log(this.product)
+    // console.log(this.product.productImage)
+  }
+}
 </script>
 <style lang="scss" scoped>
 p {
