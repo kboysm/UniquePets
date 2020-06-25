@@ -27,6 +27,22 @@
         </div>
       </div>
     </div>
+    <div></div>
+    <div class="All_product">
+      <product-card :product="productList[0]" />
+      <product-card :product="productList[0]" />
+      <product-card :product="productList[0]" />
+      <product-card :product="productList[0]" />
+      <product-card :product="productList[0]" />
+      <product-card :product="productList[0]" />
+      <product-card :product="productList[0]" />
+      <product-card :product="productList[0]" />
+      <product-card :product="productList[0]" />
+      <product-card :product="productList[0]" />
+      <product-card :product="productList[0]" />
+      <product-card :product="productList[0]" />
+      <product-card :product="productList[0]" />
+    </div>
   </div>
 </template>
 
@@ -103,5 +119,20 @@ export default {
 
   padding: 24px;
   overflow: hidden;
+}
+.All_product {
+  margin-right: 100px;
+  width: 60%;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+
+  background: #fff;
+  border-radius: 5px;
+  text-align: center;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+
+  padding: 24px;
+  margin-right: 0;
 }
 </style>

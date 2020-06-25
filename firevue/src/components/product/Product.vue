@@ -68,7 +68,10 @@ p {
   background-color: rgb(0, 0, 0); /* Fallback color */
   background-color: rgba(0, 0, 0, 0.9); /* Black w/ opacity */
 }
-
+#img01 {
+  width: 50%;
+  height: 40%;
+}
 /* Modal Content (image) */
 .modal-content {
   margin: auto;
