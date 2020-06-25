@@ -1,24 +1,37 @@
 <template>
   <div class="home">
-    <nav>
+    <nav class="nav">
       <ul>
-        <li>item1</li>
-        <li>item2</li>
-        <li>item2</li>
-        <li>item3</li>
-        <li>item4</li>
+        <li>
+          <button>frog</button>
+        </li>
+        <li>
+          <button>lizard</button>
+        </li>
+        <li>
+          <button>snake</button>
+        </li>
+        <li>
+          <button>hamster</button>
+        </li>
+        <li>
+          <button>Supplies</button>
+        </li>
       </ul>
     </nav>
-    <div class="hitItem">
-      <div v-for="item in productList" :key="item._id">
-        <Product-card :product="item" />
+    <div class="hitContainer">
+      <h2>인기상품</h2>
+      <div class="hitItem">
+        <div v-for="item in hitProduct" :key="item._id">
+          <Product-card :product="item" />
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import ProductCard from "@/components/product/Product.vue"
+import ProductCard from "@/components/product/Product.vue";
 // @ is an alias to /src
 export default {
   components: {
@@ -26,41 +39,62 @@ export default {
   },
   data() {
     return {
-      productList: []
-    }
+      productList: [], //전체 상품 리스트
+      hitProduct: [] //인기상품목록 slider로 구현
+    };
   },
   created() {
     this.$axios.get("/api/product/products").then(r => {
-      this.productList = r.data
-    })
+      this.productList = r.data;
+      for (let i = 0; i < 5; i++) {
+        this.hitProduct.push(this.productList[i]);
+      }
+    });
   }
-}
+};
 </script>
 <style scoped>
+* {
+  box-sizing: border-box;
+}
+
 .home {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-around;
 }
-nav {
-  width: 15vw;
-  height: auto;
+.nav {
+  width: auto;
+  height: 300px;
   position: sticky;
-  left: 0;
+  top: 25%;
   background: #fff;
   border-radius: 5px;
-  height: 800px;
   text-align: center;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 
   padding: 24px;
+  margin-right: 0;
+}
+.nav ul {
+  height: 250px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .hitItem {
   display: flex;
   flex-direction: row;
-
+  height: fit-content;
+  width: 59vw;
+}
+.hitContainer {
+  margin-right: 100px;
   width: auto;
+  height: fit-content;
+  width: 59vw;
   background: #fff;
   border-radius: 5px;
 
@@ -68,5 +102,6 @@ nav {
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 
   padding: 24px;
+  overflow: hidden;
 }
 </style>
