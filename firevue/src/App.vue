@@ -5,12 +5,12 @@
       <router-link to="/about">About</router-link>|
       <router-link to="/notice">Notice</router-link>|
       <template v-if="!$store.state.token">
-        <router-link to="/register">회원가입</router-link>|
-        <router-link to="/login">로그인</router-link>
+        <router-link to="/register">sign up</router-link>|
+        <router-link to="/login">sign in</router-link>
       </template>
       <template v-else>
-        <router-link to="/mypage">마이페이지</router-link>|
-        <a @click="signOut">로그아웃</a>
+        <router-link to="/mypage">mypage</router-link>|
+        <a @click="signOut">sign out</a>
       </template>
     </div>
     <!-- <img :src="require('@/assets/insect.jpg')" /> -->
