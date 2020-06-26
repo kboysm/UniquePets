@@ -25,7 +25,7 @@
     <article>
       <h2>인기상품</h2>
       <div class="hitItem">
-        <div v-for="item in hitProduct" :key="item._id+'hit'">
+        <div class="mySlides fade" v-for="item in hitProduct" :key="item._id+'hit'">
           <Product-card :product="item" />
         </div>
       </div>
@@ -54,16 +54,59 @@ export default {
   data() {
     return {
       productList: [], //전체 상품 리스트
-      hitProduct: [] //인기상품목록 slider로 구현
+      hitProduct: [], //인기상품목록 slider로 구현
+      SliderIndex: [1, 2, 3, 4, 5, 6]
+    }
+  },
+  methods: {
+    autoHitItemSliderViews() {
+      let slides = document.getElementsByClassName("mySlides")
+      this.SliderIndex = this.SliderIndex.map(item => {
+        return (item + 1) % slides.length
+      })
+      for (let i = 0; i < slides.length; i++) {
+        if (this.SliderIndex.includes(i)) {
+          slides[i].style.display = "block"
+        } else {
+          slides[i].style.display = "none"
+        }
+      }
+      console.log(this.SliderIndex)
+      setTimeout(this.autoHitItemSliderViews, 2000)
+    },
+    autoHitItemSliderFirst() {
+      let slides = document.getElementsByClassName("mySlides")
+
+      for (let i = 0; i < slides.length; i++) {
+        if (this.SliderIndex.includes(i + 1)) {
+          slides[i].style.display = "block"
+        } else {
+          slides[i].style.display = "none"
+        }
+      }
+      setTimeout(this.autoHitItemSliderViews, 2000)
+      // for (let idx in this.SliderIndex) {
+      //   slides[idx].style.display = "block"
+      // }
     }
   },
   created() {
-    this.$axios.get("/api/product/products").then(r => {
-      this.productList = r.data
-      for (let i = 0; i < 5; i++) {
-        this.hitProduct.push(this.productList[i])
-      }
-    })
+    this.$axios
+      .get("/api/product/products")
+      .then(r => {
+        this.productList = r.data
+        for (let i = 0; i < this.productList.length; i++) {
+          if (this.productList[i].isBestProduct === true) {
+            this.hitProduct.push(this.productList[i])
+          }
+        }
+        return 1
+      })
+      .then(r => {
+        if (r === 1) {
+          this.autoHitItemSliderFirst()
+        }
+      })
   }
 }
 </script>
@@ -73,7 +116,7 @@ export default {
 }
 .home {
   display: block;
-  height: 200%;
+  height: 230%;
   overflow: visible;
 }
 .hitItem {
@@ -81,7 +124,7 @@ export default {
   flex-direction: row;
   height: fit-content;
   width: auto;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
 }
 
@@ -89,7 +132,7 @@ export default {
   height: auto;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 /* Style the header */
@@ -105,7 +148,7 @@ header {
 /* Create two columns/boxes that floats next to each other */
 section {
   float: left;
-  width: 15%;
+  width: 20%;
   height: 300px; /* only for demonstration, should be removed */
 
   padding: 20px;
@@ -157,15 +200,44 @@ section:after {
   display: table;
   clear: both;
 }
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.5s;
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
 
+@-webkit-keyframes fade {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
 /* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
 @media (max-width: 600px) {
-  nav,
-  section {
+  .home {
+    height: auto;
+  }
+  nav {
     width: 100%;
     height: auto;
   }
-
+  section {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
   article {
     margin: 10px;
     width: 100%;
