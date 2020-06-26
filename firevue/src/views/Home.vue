@@ -5,19 +5,22 @@
       <nav>
         <ul>
           <li>
-            <button>frog</button>
+            <button @click="categoryViewProductList('All')">All</button>
           </li>
           <li>
-            <button>lizard</button>
+            <button @click="categoryViewProductList('frog')">frog</button>
           </li>
           <li>
-            <button>snake</button>
+            <button @click="categoryViewProductList('lizard')">lizard</button>
           </li>
           <li>
-            <button>turtle</button>
+            <button @click="categoryViewProductList('snake')">snake</button>
           </li>
           <li>
-            <button>scorpion</button>
+            <button @click="categoryViewProductList('turtle')">turtle</button>
+          </li>
+          <li>
+            <button @click="categoryViewProductList('scorpion')">scorpion</button>
           </li>
         </ul>
       </nav>
@@ -34,7 +37,7 @@
       <br />
       <h2>전체 상품 목록</h2>
       <div class="All_product">
-        <div v-for="item in productList" :key="item._id">
+        <div v-for="item in viewProductList" :key="item._id">
           <product-card :product="item" />
         </div>
       </div>
@@ -53,12 +56,27 @@ export default {
   },
   data() {
     return {
+      viewProductList: [], //navbar에 의해 화면에 보여지는 상품 리스트
       productList: [], //전체 상품 리스트
       hitProduct: [], //인기상품목록 slider로 구현
       SliderIndex: [1, 2, 3, 4, 5, 6]
     }
   },
   methods: {
+    categoryViewProductList(category) {
+      if (category === "All") {
+        this.viewProductList = this.productList
+        return
+      }
+
+      const viewList = []
+      this.productList.forEach(item => {
+        if (item.productCategory === category) {
+          viewList.push(item)
+        }
+      })
+      this.viewProductList = viewList
+    },
     autoHitItemSliderViews() {
       let slides = document.getElementsByClassName("mySlides")
       this.SliderIndex = this.SliderIndex.map(item => {
@@ -71,8 +89,7 @@ export default {
           slides[i].style.display = "none"
         }
       }
-      console.log(this.SliderIndex)
-      setTimeout(this.autoHitItemSliderViews, 2000)
+      setTimeout(this.autoHitItemSliderViews, 5000)
     },
     autoHitItemSliderFirst() {
       let slides = document.getElementsByClassName("mySlides")
@@ -95,6 +112,7 @@ export default {
       .get("/api/product/products")
       .then(r => {
         this.productList = r.data
+        this.viewProductList = this.productList
         for (let i = 0; i < this.productList.length; i++) {
           if (this.productList[i].isBestProduct === true) {
             this.hitProduct.push(this.productList[i])

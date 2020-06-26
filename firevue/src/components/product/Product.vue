@@ -8,6 +8,7 @@
       <span @click="modal=!modal" class="close">&times;</span>
       <img class="modal-content" :src="product.productImage" id="img01" />
       <p>{{product.productName}}</p>
+      <p style="color:red;">{{stringPrice(product.productPrice)}}원</p>
       <br />
       <p v-html="product.productDescription"></p>
       <br />
@@ -24,7 +25,26 @@ export default {
       modal: false
     }
   },
-  methods: {},
+  methods: {
+    stringPrice(price) {
+      let stringPrice = (price + "").split("").reverse()
+      let result = ""
+
+      while (stringPrice.length > 3) {
+        let aa = String(stringPrice.splice(0, 3))
+          .split(",")
+          .join("")
+        result += aa + ","
+      }
+      result += String(stringPrice)
+        .split(",")
+        .join("")
+      return result
+        .split("")
+        .reverse()
+        .join("")
+    }
+  },
   created() {
     // console.log(this.product)
     // console.log(this.product.productImage)
