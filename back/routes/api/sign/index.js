@@ -4,7 +4,9 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const cfg = require("../../../../config/config");
 const User = require("../../../models/users");
+const Product = require("../../../models/product");
 const crypto = require("crypto");
+const { serialize } = require('v8');
 // const fs = require('fs')
 const signToken = (_id, id, lv, name, rmb) => {
   return new Promise((resolve, reject) => {
@@ -21,6 +23,23 @@ const signToken = (_id, id, lv, name, rmb) => {
     });
   });
 };
+
+router.post('/cart', (req, res, next) => {
+
+  const { p_id, u_id } = req.body;
+  console.log(`p_id : ${p_id} , u_id : ${u_id}`);
+  // Product.findOne({ _id }).then(r => {
+  //   console.log(r);
+
+  // })
+
+  User.findById({ _id: u_id }).then(user => {
+    if (!user) return res.json({ success: false, msg: '존재하지 않는 유저입니다.' })
+    user.cart.push(p_id)
+    user.save()
+    res.json({ success: true, msg: '상품 추가' })
+  })
+})
 
 router.post("/in", (req, res, next) => {
   const { id, pwd, remember } = req.body;
