@@ -8,31 +8,58 @@
       <nav>
         <ul>
           <li>
-            <a href="#">내 정보</a>
+            <a @click="navTrigger(0)">내 정보</a>
           </li>
           <li>
-            <a href="#">장바구니</a>
+            <a @click="navTrigger(1)">장바구니</a>
           </li>
           <li>
-            <a href="#">주문목록</a>
+            <a @click="navTrigger(2)">주문목록</a>
           </li>
         </ul>
       </nav>
 
-      <MyInfo :name="'MyInfo'" v-if="MyInfoTrig" />
+      <MyInfo v-if="MyInfoTrig" />
+      <UserCart v-if="OrderListTrig" />
+      <OrderList v-if="UserCartTrig" />
     </section>
   </div>
 </template>
 <script>
-import MyInfo from "@/components/mypage/MyInfo.vue";
+import MyInfo from "@/components/mypage/MyInfo.vue"
+import OrderList from "@/components/mypage/OrderList.vue"
+import UserCart from "@/components/mypage/UserCart.vue"
 export default {
-  components: { MyInfo },
+  components: { MyInfo, UserCart, OrderList },
   data() {
     return {
-      MyInfoTrig: true
-    };
+      MyInfoTrig: true,
+      OrderListTrig: false,
+      UserCartTrig: false
+    }
+  },
+  methods: {
+    navTrigger(idx) {
+      switch (idx) {
+        case 0:
+          this.MyInfoTrig = true
+          this.OrderListTrig = false
+          this.UserCartTrig = false
+          break
+        case 1:
+          this.MyInfoTrig = false
+          this.OrderListTrig = true
+          this.UserCartTrig = false
+          break
+        case 2:
+          this.MyInfoTrig = false
+          this.OrderListTrig = false
+          this.UserCartTrig = true
+          break
+      }
+    }
   }
-};
+}
 </script>
 <style scoped>
 #mypage {
