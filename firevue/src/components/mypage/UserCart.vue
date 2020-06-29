@@ -1,5 +1,19 @@
 <template>
-  <article class="userInfo">{{$store.state.user.cart}}</article>
+  <article>
+    <article class="userInfo">
+      <div v-for="item in cart" :key="item.item._id+$store.state.user.name">
+        <ProductCard :product="item.item" />
+        <p>{{item.Quantity}}</p>
+        <button>up</button> |
+        <button>down</button>
+      </div>
+    </article>
+    <br />
+    <hr />
+    <br />
+    <p>총 가격 :{{stringPrice(totalPrice)}} 원</p>
+    <button>주문하기</button>
+  </article>
 </template>
 <script>
 import ProductCard from "@/components/product/Product.vue"
@@ -8,36 +22,46 @@ export default {
   components: { ProductCard },
   data() {
     return {
-      cartList: []
+      totalPrice: 0,
+      cart: []
     }
   },
-  created() {}
+  methods: {
+    stringPrice(price) {
+      let stringPrice = (price + "").split("").reverse()
+      let result = ""
+
+      while (stringPrice.length > 3) {
+        let aa = String(stringPrice.splice(0, 3))
+          .split(",")
+          .join("")
+        result += aa + ","
+      }
+
+      result += String(stringPrice)
+        .split(",")
+        .join("")
+
+      return result
+        .split("")
+        .reverse()
+        .join("")
+    }
+  },
+  created() {
+    this.$store.state.user.cart.forEach(item => {
+      const cartItem = { item, Quantity: 1 }
+      this.cart.push(cartItem)
+      this.totalPrice += item.productPrice
+    })
+  }
 }
 </script>
 <style scoped>
 .userInfo {
   display: flex;
-}
-
-.userInfo img {
-  border: 1px solid black;
-  border-radius: 12px;
-}
-
-.userInfo .infoContainer {
-  width: 100%;
-  padding: 12px;
-}
-
-.userInfo .infoContainer section {
-  width: 100%;
-  background-color: #e2e2e2;
-  border-radius: 5px;
-  margin: 12px;
-}
-.userInfo .infoContainer section button {
-  float: right;
-  color: red;
-  margin-right: 3px;
+  flex-wrap: wrap;
+  width: auto;
+  min-height: 500px;
 }
 </style>

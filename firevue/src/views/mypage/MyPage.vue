@@ -123,7 +123,7 @@ export default {
   padding: 20px;
   width: 50%;
   background-color: #f1f1f1;
-  height: 500px; /* only for demonstration, should be removed */
+  min-height: 500px; /* only for demonstration, should be removed */
 
   background: #fff;
   border-radius: 5px;
