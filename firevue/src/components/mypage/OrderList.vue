@@ -1,22 +1,5 @@
 <template>
-  <article class="userInfo">
-    <img src="https://image.flaticon.com/icons/svg/149/149992.svg" alt="userImage" />
-    <div class="infoContainer">
-      <section>
-        이름 : {{$store.state.user.name}}
-        <button>수정</button>
-      </section>
-      <section>
-        나이 : {{$store.state.user.age}}
-        <button>수정</button>
-      </section>
-      <section>
-        id : {{$store.state.user.id}}
-        <button>수정</button>
-      </section>
-      <button>비밀번호변경</button>
-    </div>
-  </article>
+  <article class="userInfo">{{$store.state.user.orderList}}</article>
 </template>
 <script>
 export default {

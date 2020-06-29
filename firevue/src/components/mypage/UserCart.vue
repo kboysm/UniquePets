@@ -2,8 +2,16 @@
   <article class="userInfo">{{$store.state.user.cart}}</article>
 </template>
 <script>
+import ProductCard from "@/components/product/Product.vue"
 export default {
-  name: "MyInfo"
+  name: "MyInfo",
+  components: { ProductCard },
+  data() {
+    return {
+      cartList: []
+    }
+  },
+  created() {}
 }
 </script>
 <style scoped>

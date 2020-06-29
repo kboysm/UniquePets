@@ -8,11 +8,16 @@
       <span @click="modal=!modal" class="close">&times;</span>
       <img class="modal-content" :src="product.productImage" id="img01" />
       <p>{{product.productName}}</p>
+
       <p style="color:red;">{{stringPrice(product.productPrice)}}원</p>
       <br />
       <p v-html="product.productDescription"></p>
       <br />
       <p>category : {{product.productCategory}}</p>
+      <br />
+      <br />
+      <button @click="addCart">장바구니</button> |
+      <button>바로구매</button>
       <div id="caption"></div>
     </div>
   </div>
@@ -36,15 +41,38 @@ export default {
           .join("")
         result += aa + ","
       }
+
       result += String(stringPrice)
         .split(",")
         .join("")
+
       return result
         .split("")
         .reverse()
         .join("")
+    },
+    addCart() {
+      if (!this.$store.state.token) {
+        console.log("no login")
+        return
+      }
+      this.$axios
+        .post("/api/sign/cart", {
+          u_id: this.$store.state.user._id,
+          p_id: this.product._id
+        })
+        .then(r => {
+          localStorage.setItem("user", JSON.stringify(r.data.user))
+          this.$store.commit("getToken", r.data.user)
+          this.modal = false
+
+          console.log(r)
+        })
+      // console.log(this.$store.state.user._id)
+      // console.log(this.product._id)
     }
   },
+
   created() {
     // console.log(this.product)
     // console.log(this.product.productImage)
@@ -54,6 +82,10 @@ export default {
 <style lang="scss" scoped>
 p {
   color: #fff;
+}
+button {
+  color: red;
+  border: 1px solid #fff;
 }
 .card {
   margin: 12px;

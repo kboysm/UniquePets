@@ -10,7 +10,8 @@ const userSchema = new mongoose.Schema({
     pwd: { type: String, default: '' },
     lv: { type: Number, default: 2 },
     img: { type: String, default: '' },
-    cart: [mongoose.Schema.Types.ObjectId]
+    cart: [],
+    orderList: [],
 
 })
 const User = mongoose.model('User', userSchema)
