@@ -44,10 +44,15 @@ router.post('/cart', (req, res, next) => {
     .catch(e => {
       console.error(e)
     })
+})
+router.post('/cart/delete', (req, res, next) => {
+  const { cart, u_id } = req.body;
 
-
-
-
+  User.findById({ _id: u_id }).then(r => {
+    r.cart = cart;
+    r.save();
+    res.json({ sucess: true, msg: '삭제 완료', user: r });
+  })
 })
 
 router.post("/in", (req, res, next) => {
