@@ -1,9 +1,13 @@
 <template>
-  <article class="userInfo">{{$store.state.user.orderList}}</article>
+  <article class="userInfo">
+    <PurchaseList />
+  </article>
 </template>
 <script>
+import PurchaseList from "@/components/purchase/PurchaseList.vue"
+
 export default {
-  name: "MyInfo"
+  components: { PurchaseList }
 }
 </script>
 <style scoped>
