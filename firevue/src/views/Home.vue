@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import ProductCard from "@/components/product/Product.vue";
+import ProductCard from "@/components/product/Product.vue"
 // @ is an alias to /src
 export default {
   components: {
@@ -60,49 +60,49 @@ export default {
       productList: [], //전체 상품 리스트
       hitProduct: [], //인기상품목록 slider로 구현
       SliderIndex: [1, 2, 3, 4, 5, 6]
-    };
+    }
   },
   methods: {
     categoryViewProductList(category) {
       if (category === "All") {
-        this.viewProductList = this.productList;
-        return;
+        this.viewProductList = this.productList
+        return
       }
 
-      const viewList = [];
+      const viewList = []
       this.productList.forEach(item => {
         if (item.productCategory === category) {
-          viewList.push(item);
+          viewList.push(item)
         }
-      });
-      this.viewProductList = viewList;
-      document.querySelector(".hitItem").scrollIntoView(true);
+      })
+      this.viewProductList = viewList
+      document.querySelector(".hitItem").scrollIntoView(true)
     },
     autoHitItemSliderViews() {
-      let slides = document.getElementsByClassName("mySlides");
+      let slides = document.getElementsByClassName("mySlides")
       this.SliderIndex = this.SliderIndex.map(item => {
-        return (item + 1) % slides.length;
-      });
+        return (item + 1) % slides.length
+      })
       for (let i = 0; i < slides.length; i++) {
         if (this.SliderIndex.includes(i)) {
-          slides[i].style.display = "block";
+          slides[i].style.display = "block"
         } else {
-          slides[i].style.display = "none";
+          slides[i].style.display = "none"
         }
       }
-      setTimeout(this.autoHitItemSliderViews, 5000);
+      setTimeout(this.autoHitItemSliderViews, 5000)
     },
     autoHitItemSliderFirst() {
-      let slides = document.getElementsByClassName("mySlides");
+      let slides = document.getElementsByClassName("mySlides")
 
       for (let i = 0; i < slides.length; i++) {
         if (this.SliderIndex.includes(i + 1)) {
-          slides[i].style.display = "block";
+          slides[i].style.display = "block"
         } else {
-          slides[i].style.display = "none";
+          slides[i].style.display = "none"
         }
       }
-      setTimeout(this.autoHitItemSliderViews, 2000);
+      setTimeout(this.autoHitItemSliderViews, 2000)
       // for (let idx in this.SliderIndex) {
       //   slides[idx].style.display = "block"
       // }
@@ -112,22 +112,22 @@ export default {
     this.$axios
       .get("/api/product/products")
       .then(r => {
-        this.productList = r.data;
-        this.viewProductList = this.productList;
+        this.productList = r.data
+        this.viewProductList = this.productList
         for (let i = 0; i < this.productList.length; i++) {
           if (this.productList[i].isBestProduct === true) {
-            this.hitProduct.push(this.productList[i]);
+            this.hitProduct.push(this.productList[i])
           }
         }
-        return 1;
+        return 1
       })
       .then(r => {
         if (r === 1) {
-          this.autoHitItemSliderFirst();
+          this.autoHitItemSliderFirst()
         }
-      });
+      })
   }
-};
+}
 </script>
 <style scoped>
 * {

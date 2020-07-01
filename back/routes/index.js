@@ -7,6 +7,7 @@ router.use("/api/sign", require("./api/sign"));
 router.use("/api/product", require("./api/product"));
 router.use("/api/about", require("./api/about"));
 router.use("/api/termsOfUse", require("./api/termsOfUse"));
+router.use("/api/user", require("./api/user"));
 /* GET home page. */
 router.get("/", function (req, res, next) {
   res.render("index", { title: "Express" });

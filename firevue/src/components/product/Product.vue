@@ -57,7 +57,7 @@ export default {
         return
       }
       this.$axios
-        .post("/api/sign/cart", {
+        .post("/api/user/cart", {
           u_id: this.$store.state.user._id,
           p_id: this.product._id
         })
