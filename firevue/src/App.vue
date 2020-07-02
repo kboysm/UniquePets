@@ -5,6 +5,7 @@
       <router-link to="/about">About</router-link>|
       <router-link to="/termsOfUse">termsOfUse</router-link>|
       <router-link to="/notice">Notice</router-link>|
+      <router-link to="/question">Question</router-link>|
       <template v-if="!$store.state.token">
         <router-link to="/register">sign up</router-link>|
         <router-link to="/login">sign in</router-link>
@@ -25,16 +26,16 @@ export default {
   data() {
     return {
       backInsect: ""
-    }
+    };
   },
   methods: {
     signOut() {
       // localStorage.removeItem('token')
-      this.$store.commit("delToken")
-      this.$router.push("/").catch(() => {})
+      this.$store.commit("delToken");
+      this.$router.push("/").catch(() => {});
     }
   }
-}
+};
 </script>
 
 <style>

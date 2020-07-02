@@ -47,7 +47,7 @@ export default {
         .then(r => {
           localStorage.setItem("user", JSON.stringify(r.data.user));
           this.$store.commit("getToken", r.data.user);
-          this.$router.push("mypage");
+          this.$router.push("/");
         });
     },
     deleteItem(item) {

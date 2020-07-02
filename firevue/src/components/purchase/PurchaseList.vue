@@ -10,8 +10,6 @@
         <img :src="list.productImage" alt="productImage" />
       </div>
     </div>
-    <br />
-    <hr />
   </div>
 </template>
 <script>
@@ -39,7 +37,6 @@ img {
   max-width: 200px;
   max-height: 200px;
   border-radius: 10px;
-  box-shadow: -1rem 0 3rem #fff;
   /*   margin-left: -50px; */
   transition: 0.4s ease-out;
   position: relative;
@@ -52,6 +49,9 @@ img {
 .oneOfOrder {
   display: flex;
   flex-direction: row;
+  margin-top: 12px;
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
 }
 .card {
   display: flex;
