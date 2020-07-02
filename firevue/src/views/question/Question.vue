@@ -11,36 +11,34 @@
         <th scope="cols">글쓴이</th>
         <th scope="cols">작성일</th>
       </tr>
-      <tr>
-        <td>알비노 팩맨 질문</td>
-        <td>구매하려는 ...</td>
-        <td>testid0</td>
-        <td>{{new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}}</td>
-      </tr>
-      <tr>
-        <td>킹 스네이크 관련</td>
-        <td>구매하려는 ...</td>
-        <td>testid0</td>
-        <td>{{new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}}</td>
-      </tr>
-      <tr>
-        <td>전갈에 물리면 죽나요?</td>
-        <td>구매하려는 ...</td>
-        <td>testid0</td>
-        <td>{{new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}}</td>
-      </tr>
-      <tr>
-        <td>픽시 이빨</td>
-        <td>구매하려는 ...</td>
-        <td>testid0</td>
-        <td>{{new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}}</td>
+      <tr v-for="item in listItem" :key="item._id">
+        <td>
+          <router-link :to="'/question/'+item._id">{{item.title}}</router-link>
+        </td>
+        <td>{{item.content.substring(0,4).concat('...')}}</td>
+        <td>{{item.writer}}</td>
+        <td>{{new Date(item.createdAt).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}}</td>
       </tr>
     </table>
-    <br />1 ,2 ,3 ,4 ,5
     <br />
     <button>글쓰기</button>
   </div>
 </template>
+<script>
+export default {
+  data() {
+    return {
+      listItem: []
+    }
+  },
+  created() {
+    this.$axios("/api/question").then(r => {
+      this.listItem = r.data
+      console.log(this.listItem)
+    })
+  }
+}
+</script>
 <style scoped>
 .container {
   width: 100%;

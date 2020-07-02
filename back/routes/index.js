@@ -8,6 +8,7 @@ router.use("/api/product", require("./api/product"));
 router.use("/api/about", require("./api/about"));
 router.use("/api/termsOfUse", require("./api/termsOfUse"));
 router.use("/api/user", require("./api/user"));
+router.use("/api/question", require("./api/question"));
 /* GET home page. */
 router.get("/", function (req, res, next) {
   res.render("index", { title: "Express" });
