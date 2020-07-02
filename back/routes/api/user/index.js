@@ -36,6 +36,7 @@ router.post('/cart/delete', (req, res, next) => {
 })
 
 router.post('/cart/purchase', (req, res, next) => {
+    if (!req.body) res.json({ sucess: false, msg: '상품이 존재하지 않습니다.' })
     const { cart, u_id } = req.body;
 
     User.findById({ _id: u_id }).then(r => {

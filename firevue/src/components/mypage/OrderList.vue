@@ -1,14 +1,14 @@
 <template>
   <article class="userInfo">
-    <PurchaseList />
+    <PurchaseList :orderList="$store.state.user.orderList" />
   </article>
 </template>
 <script>
-import PurchaseList from "@/components/purchase/PurchaseList.vue"
+import PurchaseList from "@/components/purchase/PurchaseList.vue";
 
 export default {
   components: { PurchaseList }
-}
+};
 </script>
 <style scoped>
 .userInfo {

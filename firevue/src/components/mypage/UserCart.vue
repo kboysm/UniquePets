@@ -18,7 +18,7 @@
   </article>
 </template>
 <script>
-import ProductCard from "@/components/product/Product.vue"
+import ProductCard from "@/components/product/Product.vue";
 export default {
   name: "MyInfo",
   components: { ProductCard },
@@ -26,15 +26,15 @@ export default {
     return {
       totalPrice: 0,
       cart: []
-    }
+    };
   },
   computed: {
     totalPriceUpdate() {
-      this.totalPrice = 0
+      this.totalPrice = 0;
       this.cart.forEach(item => {
-        this.totalPrice += item.productPrice * item.Quantity
-      })
-      return this.totalPrice
+        this.totalPrice += item.productPrice * item.Quantity;
+      });
+      return this.totalPrice;
     }
   },
   methods: {
@@ -45,65 +45,65 @@ export default {
           u_id: this.$store.state.user._id
         })
         .then(r => {
-          localStorage.setItem("user", JSON.stringify(r.data.user))
-          this.$store.commit("getToken", r.data.user)
-          this.$router.push("/mypage")
-        })
+          localStorage.setItem("user", JSON.stringify(r.data.user));
+          this.$store.commit("getToken", r.data.user);
+          this.$router.push("mypage");
+        });
     },
     deleteItem(item) {
       this.cart.forEach((v, i) => {
         if (v._id === item._id) {
-          this.cart.splice(i, 1)
+          this.cart.splice(i, 1);
           this.$axios
             .post("/api/user/cart/delete", {
               cart: this.cart,
               u_id: this.$store.state.user._id
             })
             .then(r => {
-              localStorage.setItem("user", JSON.stringify(r.data.user))
-              this.$store.commit("getToken", r.data.user)
-            })
+              localStorage.setItem("user", JSON.stringify(r.data.user));
+              this.$store.commit("getToken", r.data.user);
+            });
           //서버로 cart 전송 후 db cart 바꾼 후 다시 user를 보내서 vuex에 저장시키기
         }
-      })
+      });
     },
     itemQuantity(item, upAndDown) {
       if (item.Quantity === 0 && upAndDown === -1) {
-        return
+        return;
       }
       if (upAndDown === 1) {
-        item.Quantity++
+        item.Quantity++;
       } else if (upAndDown === -1) {
-        item.Quantity--
+        item.Quantity--;
       }
     },
     stringPrice(price) {
-      let stringPrice = (price + "").split("").reverse()
-      let result = ""
+      let stringPrice = (price + "").split("").reverse();
+      let result = "";
 
       while (stringPrice.length > 3) {
         let aa = String(stringPrice.splice(0, 3))
           .split(",")
-          .join("")
-        result += aa + ","
+          .join("");
+        result += aa + ",";
       }
 
       result += String(stringPrice)
         .split(",")
-        .join("")
+        .join("");
 
       return result
         .split("")
         .reverse()
-        .join("")
+        .join("");
     }
   },
   created() {
     this.$store.state.user.cart.forEach(item => {
-      this.cart.push(item)
-    })
+      this.cart.push(item);
+    });
   }
-}
+};
 </script>
 <style scoped>
 .userInfo {
