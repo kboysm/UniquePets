@@ -4,7 +4,7 @@
       <h2>{{selectedNotice.title}}</h2>
       <pre>
 
-작성자 {{selectedNotice.writer}}   조회수 {{selectedNotice.views}}   {{new Date(selectedNotice.createdAt).toLocaleDateString(undefined,this.options)}}</pre>
+작성자 {{selectedNotice.writer}}   조회수 {{selectedNotice.views}}   {{new Date(selectedNotice.createdAt).toLocaleDateString(undefined,options)}}</pre>
       <br />
       <hr />
       <div class="content">
