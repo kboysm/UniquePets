@@ -19,7 +19,7 @@ const questionSchema = new mongoose.Schema({
 
 const Question = mongoose.model('Question', questionSchema)
 //test data 생성
-// for (let i = 0; i < 42; i++) {
+// for (let i = 0; i < 52; i++) {
 //     const title = 'Question' + i;
 //     const content =
 //         `
