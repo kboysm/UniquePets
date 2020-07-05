@@ -13,44 +13,29 @@
     </div>
     <div v-if="modal" id="myModal" class="modal">
       <span @click="modal=!modal" class="close">&times;</span>
-      <gmap-autocomplete
-        @place_changed="setPlace"
-        class="form-input"
-        style="background-color:#fff;"
-      ></gmap-autocomplete>
-      <GmapMap
-        :center="mapCenter"
-        :zoom="7"
-        map-type-id="terrain"
-        style="width: 500px; height: 300px"
-      ></GmapMap>
+      <GoogleMap @updateAddress="updateAddress" />
     </div>
   </article>
 </template>
 <script>
+import GoogleMap from "../googleMap/GoogleMap.vue"
 export default {
   name: "MyInfo",
+  components: { GoogleMap },
   data() {
     return {
-      modal: false,
-      mapCenter: { lat: 10, lng: 10 }
-    };
+      modal: false
+    }
   },
   methods: {
-    setPlace(location) {
-      console.log(location);
-      this.mapCenter = {
-        lat: location.geometry.location.lat(),
-        lng: location.geometry.location.lat()
-      };
+    updateAddress(item) {
+      this.modal = false
+      console.log(item)
     }
   }
-};
+}
 </script>
 <style scoped>
-.googleMap {
-  height: 500px;
-}
 .userInfo {
   display: flex;
 }

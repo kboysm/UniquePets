@@ -17,7 +17,7 @@ axios.defaults.baseURL = "http://localhost:3000";
 Vue.use(VueGoogleMaps, {
   load: {
     key: cfg.googleMap,
-    libraries: 'places', // This is required if you use the Autocomplete plugin
+    libraries: 'places', v: 3.38  // This is required if you use the Autocomplete plugin
     // OR: libraries: 'places,drawing'
     // OR: libraries: 'places,drawing,visualization'
     // (as you require)
