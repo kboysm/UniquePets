@@ -3,6 +3,7 @@ const cfg = require('../../Config/config');
 const crypto = require('crypto')
 const ProductModel = require('./product');
 mongoose.set('useCreateIndex', true)
+
 const userSchema = new mongoose.Schema({
     name: { type: String, default: '' },
     age: { type: Number, default: 1 },
@@ -10,9 +11,9 @@ const userSchema = new mongoose.Schema({
     pwd: { type: String, default: '' },
     lv: { type: Number, default: 2 },
     img: { type: String, default: '' },
+    address: { type: String, default: '미입력' },
     cart: [],
     orderList: [],
-
 })
 const User = mongoose.model('User', userSchema)
 

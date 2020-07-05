@@ -46,5 +46,8 @@ router.post('/cart/purchase', (req, res, next) => {
         res.json({ sucess: true, msg: '구매 완료', user: r });
     })
 })
+router.post('/update/:_id', (req, res, next) => {
+    console.log(req.body);
+})
 
 module.exports = router;
