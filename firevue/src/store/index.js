@@ -6,6 +6,7 @@ export default new Vuex.Store({
   state: {
     token: localStorage.getItem("token"),
     user: JSON.parse(localStorage.getItem("user")),
+    tid: localStorage.getItem('tid')
   },
   mutations: {
     getToken(state, user) {
@@ -15,6 +16,7 @@ export default new Vuex.Store({
     delToken(state) {
       localStorage.removeItem("token");
       localStorage.removeItem("user");
+      localStorage.removeItem("tid");
       state.token = null;
       state.user = {
         name: "일반사용자",
@@ -22,6 +24,9 @@ export default new Vuex.Store({
         img: "https://randomuser.me/api/portraits/men/85.jpg",
       };
     },
+    getTid(state, tid) {
+      state.tid = tid
+    }
   },
   actions: {},
   modules: {},

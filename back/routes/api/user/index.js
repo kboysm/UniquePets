@@ -3,7 +3,18 @@ const createError = require("http-errors");
 const router = express.Router();
 const User = require("../../../models/users");
 const Product = require("../../../models/product");
+const crypto = require("crypto");
+const cfg = require("../../../../config/config")
+const axios = require('axios')
+router.get('/:_id', (req, res) => {
+    const { _id } = req.params;
 
+    User.findById({ _id }).exec((err, docs) => {
+        if (err) return res.send(err);
+        res.json(docs);
+    })
+
+})
 router.post('/cart', (req, res, next) => {
 
     const { p_id, u_id } = req.body;
@@ -46,8 +57,93 @@ router.post('/cart/purchase', (req, res, next) => {
         res.json({ sucess: true, msg: '구매 완료', user: r });
     })
 })
-router.post('/update/:_id', (req, res, next) => {
-    console.log(req.body);
+router.post('/update/address', (req, res, next) => {
+    const { address, center, _id } = req.body;
+    User.findById({ _id }).then(r => {
+        r.address = address
+        r.center = center
+        r.save();
+        res.json({ sucess: true, msg: '주소 변경 완료', user: r });
+    })
+})
+
+router.post('/update/password', (req, res, next) => {
+    const { password, _id } = req.body;
+    const pwd = crypto
+        .scryptSync(password, _id.toString(), 64, { N: 1024 })
+        .toString("hex");
+    User.findById({ _id }).then(r => {
+        r.pwd = pwd;
+        r.save();
+        res.json({ sucess: true, msg: '비밀번호 변경 완료', user: r });
+    })
+})
+router.post('/update/payment', (req, res, next) => {
+    const point = req.body.point
+
+    const url = "https://kapi.kakao.com";
+    const headers = {
+        'Authorization': "KakaoAK " + cfg.kakaoPay,
+        'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+    }
+
+    const params = [
+        'cid=TC0ONETIME',
+        'partner_order_id=1111',
+        'partner_user_id=1111',
+        `item_name=포인트`,
+        `quantity=1`,
+        `total_amount=${point}`,
+        `vat_amount=0`,
+        `tax_free_amount=0`,
+        `approval_url=http://localhost:8080/approval`,
+        `fail_url=http://localhost:8080/fail`,
+        `cancel_url=http://localhost:8080/cancel`
+    ].join('&');
+    axios.post(url + "/v1/payment/ready", params, { headers }).then(r => {
+        console.log(r)
+        res.json(r.data)
+    }).catch(e => {
+        console.log(e)
+        res.json(e)
+    })
+
+})
+router.post('/payment/approval', (req, res) => {
+    let point = 0;
+    const { tid, _id, pg_token } = req.body;
+    const url = "https://kapi.kakao.com";
+    const headers = {
+        'Authorization': "KakaoAK " + cfg.kakaoPay,
+        'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+    }
+    const params = [
+        'cid=TC0ONETIME',
+        `tid=${tid}`,
+        'partner_order_id=1111',
+        'partner_user_id=1111',
+        `pg_token=${pg_token}`
+    ].join('&');
+    axios.post(url + "/v1/payment/approve", params, { headers }).then(res => {
+
+        return res.data.amount.total;
+    }).then(total => {
+        return User.findById({ _id }).then(r => {
+            r.point += total;
+            point = r.point
+            r.save();
+            return r;
+        }).catch(err => {
+            console.log(err)
+        })
+    }).then(result => {
+        res.send({ success: true, msg: '결제 완료', user: result });
+    })
+        .catch(e => {
+            console.log(e)
+
+        })
+
 })
 
 module.exports = router;

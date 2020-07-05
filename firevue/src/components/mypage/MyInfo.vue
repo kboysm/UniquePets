@@ -5,15 +5,36 @@
       <section>이름 : {{$store.state.user.name}}</section>
       <section>나이 : {{$store.state.user.age}}</section>
       <section>id : {{$store.state.user.id}}</section>
+      <section>point : {{$store.state.user.point}}</section>
+      {{pointCharging}}
+      <label>
+        충전 할 포인트 :
+        <form>
+          <input v-model="pointCharging" style="border:1px solid black;" type="number" />
+        </form>
+        <button @click="chargingPoint">충전하기</button>
+      </label>
       <section>
         address : {{$store.state.user.address}}
         <button @click="modal=!modal">수정</button>
       </section>
-      <button>비밀번호변경</button>
+
+      <button v-if="!passwordModal" @click="passwordModal = !passwordModal">비밀번호변경</button>
+      <label v-if="passwordModal">
+        변경하실 비밀번호 :
+        <form>
+          <input v-model="updatePasswordData" style="border:1px solid black;" type="password" />
+        </form>
+        <button @click="updatePassword">변경</button>
+      </label>
     </div>
     <div v-if="modal" id="myModal" class="modal">
       <span @click="modal=!modal" class="close">&times;</span>
-      <GoogleMap @updateAddress="updateAddress" />
+      <GoogleMap
+        :beforeAddress="$store.state.user.address"
+        :beforeMarker="$store.state.user.center"
+        @updateAddress="updateAddress"
+      />
     </div>
   </article>
 </template>
@@ -24,13 +45,50 @@ export default {
   components: { GoogleMap },
   data() {
     return {
-      modal: false
+      modal: false,
+      passwordModal: false,
+      updatePasswordData: "",
+      pointCharging: 0
     }
   },
   methods: {
+    chargingPoint() {
+      const backendData = {
+        _id: this.$store.state.user._id,
+        point: this.pointCharging
+      }
+      this.$axios
+        .post("/api/user/update/payment", backendData)
+        .then(r => {
+          localStorage.setItem("tid", r.data.tid)
+          this.$store.commit("getTid", r.data.tid)
+          window.location.replace(r.data.next_redirect_pc_url)
+        })
+        .catch(e => {
+          alert("에러가 발생했습니다. 다시 시도해주세요")
+          this.$router.push("/")
+        })
+    },
     updateAddress(item) {
       this.modal = false
-      console.log(item)
+      item._id = this.$store.state.user._id
+      this.$axios.post("/api/user//update/address", item).then(r => {
+        localStorage.setItem("user", JSON.stringify(r.data.user))
+        this.$store.commit("getToken", r.data.user)
+      })
+    },
+    updatePassword() {
+      this.$axios
+        .post("/api/user/update/password", {
+          _id: this.$store.state.user._id,
+          password: this.updatePasswordData
+        })
+        .then(r => {
+          if (r.data.success) {
+            this.passwordModal = false
+            prompt(r.data.msg)
+          }
+        })
     }
   }
 }

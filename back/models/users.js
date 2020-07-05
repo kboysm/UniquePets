@@ -12,6 +12,8 @@ const userSchema = new mongoose.Schema({
     lv: { type: Number, default: 2 },
     img: { type: String, default: '' },
     address: { type: String, default: '미입력' },
+    center: { type: Object, default: { "lat": 37.539020799999996, "lng": 127.05464319999999 } },
+    point: { type: Number, default: 0 },
     cart: [],
     orderList: [],
 })

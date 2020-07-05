@@ -19,7 +19,7 @@ router.get('/', (req, res) => {
 
 router.get('/:_id', (req, res) => {
     const { _id } = req.params;
-    console.log(_id)
+
     Question.findById({ _id }).exec((err, docs) => {
         if (err) return res.send(err);
         res.json(docs);

@@ -27,6 +27,7 @@
 <script>
 export default {
   name: "GoogleMap",
+  props: ["beforeMarker", "beforeAddress"],
   data() {
     return {
       trig: false,
@@ -73,6 +74,10 @@ export default {
           lng: position.coords.longitude
         }
       })
+      if (this.beforeMarker && this.beforeAddress) {
+        this.marker = { position: this.beforeMarker }
+        this.address = this.beforeAddress
+      }
     }
   }
 }

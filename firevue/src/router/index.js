@@ -100,6 +100,33 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/question/createQuestion.vue"),
   },
+  {
+    path: "/approval",
+    name: "approval",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/payment/Approval.vue"),
+  },
+  {
+    path: "/cancel",
+    name: "cancel",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/payment/Cancel.vue"),
+  },
+  {
+    path: "/fail",
+    name: "fail",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/payment/Fail.vue"),
+  },
 ];
 
 const router = new VueRouter({

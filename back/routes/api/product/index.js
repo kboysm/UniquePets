@@ -6,7 +6,7 @@ router.route('/products')
     .get((req, res) => {
         Product.find((err, data) => {
             if (err) res.send(err)
-            console.log('data:', data)
+
             res.json(data)
         })
     })
