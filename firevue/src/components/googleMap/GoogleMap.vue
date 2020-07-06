@@ -1,8 +1,7 @@
 <template>
   <div class="container">
-    {{address}}
     <br />
-    {{center}}
+
     <div>
       <h2>Search and add a pin</h2>
       <label>
