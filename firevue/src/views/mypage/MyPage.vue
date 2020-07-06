@@ -147,6 +147,9 @@ section:after {
 /* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
 @media (max-width: 600px) {
   #mypage nav {
+    position: relative;
+    top: 0;
+    left: 0;
     margin: 10px;
     float: left;
     width: 100%;

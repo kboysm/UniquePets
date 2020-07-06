@@ -2,9 +2,7 @@
   <div class="container">
     <div id="selectedNotice">
       <h2>{{selectedNotice.title}}</h2>
-      <pre>
-
-작성자 {{selectedNotice.writer}}   조회수 {{selectedNotice.views}}   {{new Date(selectedNotice.createdAt).toLocaleDateString(undefined,options)}}</pre>
+      <p>작성자 {{selectedNotice.writer}} 조회수 {{selectedNotice.views}} {{new Date(selectedNotice.createdAt).toLocaleDateString(undefined,options)}}</p>
       <br />
       <hr />
       <div class="content">
@@ -17,13 +15,16 @@
       <br />
       <div id="comments">
         <h3>덧글목록</h3>
-
-        <v-list-item v-for="item in selectedNotice.comments" :key="item._id" two-line>
-          <v-list-item-content>
-            <v-list-item-title>{{item.content}}</v-list-item-title>
-            <v-list-item-subtitle>{{item.author}}.{{new Date(item.comment_date).toLocaleDateString(undefined, options)}}</v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
+        <br />
+        <div v-for="item in selectedNotice.comments" :key="item._id" two-line>
+          <!-- <v-list-item-content> -->
+          <p>{{item.content}}</p>
+          <p
+            style="font-size:15px;color:gray;"
+          >{{item.author}}.{{new Date(item.comment_date).toLocaleDateString(undefined, options)}}</p>
+          <!-- </v-list-item-content> -->
+          <br />
+        </div>
         <div>
           <form>
             <label>{{userId }}</label>
@@ -118,6 +119,10 @@ export default {
   .options button {
     border: 1px;
     color: red;
+  }
+}
+@media only screen and (max-width: 700px) {
+  #comments {
   }
 }
 </style>

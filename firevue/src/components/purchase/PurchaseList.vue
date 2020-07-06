@@ -6,8 +6,11 @@
         <br />
         총급액:{{totalPrice(item.list)}} 원
       </p>
-      <div class="card" v-for="list in item.list" :key="$store.state.user._id+list._id">
-        <img :src="list.productImage" alt="productImage" />
+      <br />
+      <div class="cardList">
+        <div class="card" v-for="list in item.list" :key="$store.state.user._id+list._id">
+          <img :src="list.productImage" alt="productImage" />
+        </div>
       </div>
     </div>
   </div>
@@ -41,17 +44,24 @@ img {
   position: relative;
   left: 0px;
 }
+
 .container {
   display: flex;
   flex-direction: column;
 }
+
 .oneOfOrder {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   margin-top: 12px;
   border-bottom: 1px solid black;
   border-top: 1px solid black;
 }
+
+.cardList {
+  display: flex;
+}
+
 .card {
   display: flex;
   height: 150px;
@@ -59,21 +69,66 @@ img {
   background-color: #17141d;
   border-radius: 10px;
   box-shadow: -1rem 0 3rem #fff;
-  /* margin-left: -50px; */
+  margin-left: -150px;
   transition: 0.4s ease-out;
   position: relative;
   left: 150px;
 }
+
 .card:not(:first-child) {
   margin-left: -50px;
 }
+
 .card:hover {
   transform: translateY(-20px);
   transition: 0.4s ease-out;
 }
+
 .card:hover ~ .card {
   position: relative;
   left: 130px;
   transition: 0.4s ease-out;
+}
+
+@media (max-width: 1000px) {
+  img {
+    width: 100px;
+    height: 100px;
+    max-width: 150px;
+    max-height: 150px;
+    border-radius: 10px;
+    /*   margin-left: -50px; */
+    transition: 0.4s ease-out;
+    position: relative;
+    left: 0px;
+  }
+
+  .card {
+    display: flex;
+    height: 100px;
+    width: 100px;
+    background-color: #17141d;
+    border-radius: 10px;
+    box-shadow: -1rem 0 3rem #fff;
+    margin-left: -150px;
+    transition: 0.4s ease-out;
+    position: relative;
+    left: 150px;
+  }
+
+  .card:not(:first-child) {
+    margin-left: -50px;
+  }
+
+  .card:hover {
+    transform: translateY(-20px);
+    transition: 0.4s ease-out;
+  }
+
+  .card:hover ~ .card {
+    position: relative;
+    left: 130px;
+    transition: 0.4s ease-out;
+  }
 }
 </style>

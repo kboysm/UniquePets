@@ -16,8 +16,7 @@
       <p>category : {{product.productCategory}}</p>
       <br />
       <br />
-      <button @click="addCart">장바구니</button> |
-      <button>바로구매</button>
+      <button @click="addCart">장바구니</button>
       <div id="caption"></div>
     </div>
   </div>
@@ -198,6 +197,9 @@ button {
 @media only screen and (max-width: 700px) {
   .modal-content {
     width: 100%;
+  }
+  .modal p {
+    width: 90%;
   }
 }
 </style>

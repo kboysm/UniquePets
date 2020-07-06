@@ -34,8 +34,8 @@ export default {
 </script>
 <style scoped>
 .about {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -53,5 +53,24 @@ export default {
 .about .company img {
   width: 50%;
   height: 30%;
+}
+@media only screen and (max-width: 700px) {
+  .about {
+    height: 130%;
+  }
+  .about .company {
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    opacity: 0.8;
+    padding: 24px;
+
+    width: 65%;
+    height: auto;
+  }
+  .about .company img {
+    width: 50%;
+    height: 30%;
+  }
 }
 </style>

@@ -2,14 +2,12 @@
   <div class="container">
     <div id="selectedQuestion">
       <h2>{{selectedQuestion.title}}</h2>
-      <pre>
-
-작성자 {{selectedQuestion.writer}}  {{new Date(selectedQuestion.createdAt).toLocaleDateString(undefined,options)}}</pre>
+      <p>작성자 {{selectedQuestion.writer}} {{new Date(selectedQuestion.createdAt).toLocaleDateString(undefined,options)}}</p>
       <br />
       <hr />
       <div class="content">
         <br />
-        <p v-html="selectedQuestion.content"></p>
+        <p id="contentAndImg" v-html="selectedQuestion.content"></p>
         <br />
         <br />
         <hr />
@@ -24,17 +22,15 @@
       <div id="comments">
         <h3>덧글목록</h3>
 
-        <v-list-item v-for="item in selectedQuestion.comments" :key="item._id" two-line>
-          <v-list-item-content>
-            <v-list-item-title>{{item.content}}</v-list-item-title>
-            <v-list-item-subtitle>{{item.author}}.{{new Date(item.comment_date).toLocaleDateString(undefined, options)}}</v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-        <div>
+        <div v-for="item in selectedQuestion.comments" :key="item._id" two-line>
+            <p>{{item.content}}</p>
+            <p style="font-size:15px;color:gray;">{{item.author}}.{{new Date(item.comment_date).toLocaleDateString(undefined, options)}}</p><br>
+        </div>
           <form>
             <label>{{userId }}</label>
             <input hidden="hidden" />
             <input
+            id="commentWriter"
               v-model="comment"
               @keypress.enter="submitEnter"
               style="border:1px solid black; border-radius:5px;"
@@ -43,7 +39,6 @@
 
             <!-- <input type="submit" value="제출" /> -->
           </form>
-        </div>
       </div>
     </div>
     <div v-if="modal" id="myModal" class="modal">
@@ -160,6 +155,8 @@ export default {
     this.$axios(`/api/question/${this.$route.params.SelectedQuestion}`)
       .then(r => {
         this.selectedQuestion = r.data
+        
+         this.selectedQuestion.content= this.selectedQuestion.content.replace(/<img/gi, "<img style='width:100%;'")
       })
       .catch(e => {
         alert(e)
@@ -248,5 +245,11 @@ export default {
   color: #bbb;
   text-decoration: none;
   cursor: pointer;
+}
+// comments
+@media only screen and (max-width: 700px) {
+  #commentWriter{
+    width:100%;
+  }
 }
 </style>

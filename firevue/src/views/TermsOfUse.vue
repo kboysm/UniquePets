@@ -47,4 +47,9 @@ export default {
   width: 65%;
   height: auto;
 }
+@media only screen and (max-width: 700px) {
+  .terms {
+    height: 160%;
+  }
+}
 </style>
