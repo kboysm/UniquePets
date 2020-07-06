@@ -26,16 +26,16 @@ export default {
   data() {
     return {
       backInsect: ""
-    };
+    }
   },
   methods: {
     signOut() {
       // localStorage.removeItem('token')
-      this.$store.commit("delToken");
-      this.$router.push("/").catch(() => {});
+      this.$store.commit("delToken")
+      this.$router.push("/").catch(() => {})
     }
   }
-};
+}
 </script>
 
 <style>

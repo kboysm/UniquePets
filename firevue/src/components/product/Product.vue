@@ -68,6 +68,9 @@ export default {
 
           console.log(r)
         })
+        .catch(e => {
+          alert(e)
+        })
       // console.log(this.$store.state.user._id)
       // console.log(this.product._id)
     }

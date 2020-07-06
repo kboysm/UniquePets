@@ -1,6 +1,8 @@
 <template>
   <article class="userInfo">
-    <img src="https://image.flaticon.com/icons/svg/149/149992.svg" alt="userImage" />
+    <img v-if="!uploadImageFile" :src="viewImg" alt="userImage" />
+    <img v-else :src="viewImg" alt="userImage" />
+
     <div class="infoContainer">
       <section>이름 : {{$store.state.user.name}}</section>
       <section>나이 : {{$store.state.user.age}}</section>
@@ -27,6 +29,17 @@
         </form>
         <button @click="updatePassword">변경</button>
       </label>
+      <br />
+      <form onsubmit="return false;">
+        <input
+          type="file"
+          id="ex_file"
+          ref="uploadImageFile"
+          @change="onFileSelected"
+          accept="image/*"
+        />
+        <input v-if="uploadImageFile" @click="onSave" type="submit" value="저장" />
+      </form>
     </div>
     <div v-if="modal" id="myModal" class="modal">
       <span @click="modal=!modal" class="close">&times;</span>
@@ -48,11 +61,43 @@ export default {
       modal: false,
       passwordModal: false,
       updatePasswordData: "",
-      pointCharging: 0
+      pointCharging: 0,
+      viewImg: "",
+      uploadImageFile: ""
+    }
+  },
+  created() {
+    if (!this.$store.state.user.img) {
+      this.viewImg = "https://image.flaticon.com/icons/svg/149/149992.svg"
+    } else {
+      this.viewImg =
+        "http://localhost:3000/userImg/" + this.$store.state.user.img
     }
   },
   methods: {
+    onFileSelected(event) {
+      this.uploadImageFile = this.$refs.uploadImageFile.files[0] //3번
+      this.viewImg = URL.createObjectURL(this.uploadImageFile) // 이미지 미리보기 구현
+    },
+    async onSave() {
+      const fd = new FormData() //반드시 필요
+      fd.append("upLoadImage", this.uploadImageFile) //4번
+      fd.append("_id", this.$store.state.user._id) //4번
+      await this.$axios
+        .post("/api/user/userImage", fd)
+        .then(r => {
+          localStorage.setItem("user", JSON.stringify(r.data.user))
+          this.$store.commit("getToken", r.data.user)
+        })
+        .catch(e => {
+          alert(e)
+        })
+    },
     chargingPoint() {
+      if (this.pointCharging < 0) {
+        alert("0보다 낮은 금액은 충전할 수 없습니다")
+        return
+      }
       const backendData = {
         _id: this.$store.state.user._id,
         point: this.pointCharging
@@ -72,10 +117,15 @@ export default {
     updateAddress(item) {
       this.modal = false
       item._id = this.$store.state.user._id
-      this.$axios.post("/api/user//update/address", item).then(r => {
-        localStorage.setItem("user", JSON.stringify(r.data.user))
-        this.$store.commit("getToken", r.data.user)
-      })
+      this.$axios
+        .post("/api/user//update/address", item)
+        .then(r => {
+          localStorage.setItem("user", JSON.stringify(r.data.user))
+          this.$store.commit("getToken", r.data.user)
+        })
+        .catch(e => {
+          alert(e)
+        })
     },
     updatePassword() {
       this.$axios
@@ -86,8 +136,11 @@ export default {
         .then(r => {
           if (r.data.success) {
             this.passwordModal = false
-            prompt(r.data.msg)
+            alert(r.data.msg)
           }
+        })
+        .catch(e => {
+          alert(e)
         })
     }
   }
@@ -99,12 +152,13 @@ export default {
 }
 
 .userInfo img {
+  width: 30%;
   border: 1px solid black;
   border-radius: 12px;
 }
 
 .userInfo .infoContainer {
-  width: 100%;
+  width: 70%;
   padding: 12px;
 }
 

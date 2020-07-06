@@ -40,18 +40,30 @@ export default {
   methods: {
     purchaseCart() {
       if (this.$store.state.user.address === "미입력") {
-        prompt("주소가 미입력 상태입니다.")
+        alert("주소가 미입력 상태입니다.")
+        return
+      }
+      if (this.totalPrice > this.$store.state.user.point) {
+        alert("포인트가 부족합니다.")
+        return
+      }
+      if (!this.cart) {
+        alert("장바구니가 비었습니다.")
         return
       }
       this.$axios
         .post("/api/user/cart/purchase", {
           cart: this.cart,
-          u_id: this.$store.state.user._id
+          u_id: this.$store.state.user._id,
+          totalPrice: this.totalPriceUpdate
         })
         .then(r => {
           localStorage.setItem("user", JSON.stringify(r.data.user))
           this.$store.commit("getToken", r.data.user)
           this.$router.push("/")
+        })
+        .catch(e => {
+          alert(e)
         })
     },
     deleteItem(item) {
@@ -66,6 +78,9 @@ export default {
             .then(r => {
               localStorage.setItem("user", JSON.stringify(r.data.user))
               this.$store.commit("getToken", r.data.user)
+            })
+            .catch(e => {
+              alert(e)
             })
           //서버로 cart 전송 후 db cart 바꾼 후 다시 user를 보내서 vuex에 저장시키기
         }

@@ -16,19 +16,18 @@
 export default {
   props: ["orderList"],
   data() {
-    return {};
+    return {}
   },
   methods: {
     totalPrice(item) {
-      let totalPrice = 0;
-      console.log(item);
+      let totalPrice = 0
       item.forEach(item => {
-        totalPrice += item.productPrice;
-      });
-      return totalPrice;
+        totalPrice += item.productPrice
+      })
+      return totalPrice
     }
   }
-};
+}
 </script>
 <style scoped>
 img {

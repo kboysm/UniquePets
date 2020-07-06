@@ -17,10 +17,15 @@ export default {
     }
   },
   created() {
-    this.$axios.get("/api/termsOfUse/Terms").then(r => {
-      this.terms = r.data[0]
-      this.terms.content = this.terms.content.split("\n").join("<br />")
-    })
+    this.$axios
+      .get("/api/termsOfUse/Terms")
+      .then(r => {
+        this.terms = r.data[0]
+        this.terms.content = this.terms.content.split("\n").join("<br />")
+      })
+      .catch(e => {
+        alert(e)
+      })
   }
 }
 </script>

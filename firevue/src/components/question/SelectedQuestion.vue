@@ -104,6 +104,9 @@ export default {
         .then(r => {
           this.$router.push("/question")
         })
+        .catch(e => {
+          alert(e)
+        })
     },
     scroll() {
       this.$refs.toastuiEditor.invoke("scrollTop", 10)
@@ -119,6 +122,9 @@ export default {
         .then(r => {
           this.selectedQuestion = r.data
           this.modal = false
+        })
+        .catch(e => {
+          alert(e)
         })
     },
     submitEnter() {
@@ -137,7 +143,7 @@ export default {
             this.selectedQuestion.comments = r.data
           })
           .catch(e => {
-            console.error(e)
+            alert(e)
           })
       }
     }
@@ -151,11 +157,13 @@ export default {
   },
   created() {
     this._id = this.$route.params.SelectedQuestion
-    this.$axios(`/api/question/${this.$route.params.SelectedQuestion}`).then(
-      r => {
+    this.$axios(`/api/question/${this.$route.params.SelectedQuestion}`)
+      .then(r => {
         this.selectedQuestion = r.data
-      }
-    )
+      })
+      .catch(e => {
+        alert(e)
+      })
   }
 }
 </script>

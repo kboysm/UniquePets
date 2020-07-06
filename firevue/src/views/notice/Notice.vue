@@ -33,29 +33,29 @@ export default {
   data() {
     return {
       noticeList: []
-    };
+    }
   },
   methods: {
     selectedNoticeAxios() {
-      console.log("selected");
+      console.log("selected")
     }
   },
   created() {
     this.$axios("/api/notice")
       .then(r => {
-        this.pageLength = r.data.length / this.pageUnit;
-        this.noticeList = r.data;
-        return this.noticeList;
+        this.pageLength = r.data.length / this.pageUnit
+        this.noticeList = r.data
+        return this.noticeList
       })
       .then(r => {
-        let container = $("#pagination");
+        let container = $("#pagination")
         container.pagination({
           dataSource: r,
           callback: function(data, pagination) {
-            var dataHtml = "<tr>";
+            var dataHtml = "<tr>"
 
             $.each(data, function(index, item) {
-              (dataHtml +=
+              ;(dataHtml +=
                 "<th scope='row'><a href='/notice/" +
                 item._id +
                 "'>" +
@@ -67,19 +67,18 @@ export default {
                   "</td>"),
                 (dataHtml += "<td>" + item.writer + "</td>"),
                 (dataHtml +=
-                  "<td>" + item.createdAt.substring(0, 10) + "</td></tr>");
-            });
+                  "<td>" + item.createdAt.substring(0, 10) + "</td></tr>")
+            })
 
-            $("#data-container").html(dataHtml);
+            $("#data-container").html(dataHtml)
           }
-        });
+        })
       })
-
       .catch(e => {
-        console.error(e);
-      });
+        alert(e)
+      })
   }
-};
+}
 </script>
 <style scoped>
 #noticeList {

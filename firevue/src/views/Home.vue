@@ -126,6 +126,9 @@ export default {
           this.autoHitItemSliderFirst()
         }
       })
+      .catch(e => {
+        alert(e)
+      })
   }
 }
 </script>

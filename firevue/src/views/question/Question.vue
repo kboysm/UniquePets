@@ -41,11 +41,15 @@ export default {
     }
   },
   created() {
-    this.$axios("/api/question").then(r => {
-      this.listItem = r.data
-      this.DisplayList(this.listItem, this.rows, this.current_page)
-      this.SetupPagination(this.listItem, this.rows)
-    })
+    this.$axios("/api/question")
+      .then(r => {
+        this.listItem = r.data
+        this.DisplayList(this.listItem, this.rows, this.current_page)
+        this.SetupPagination(this.listItem, this.rows)
+      })
+      .catch(e => {
+        alert(e)
+      })
   },
   methods: {
     pageClickEvent(page) {

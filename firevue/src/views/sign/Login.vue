@@ -76,14 +76,19 @@ export default {
     async submit() {
       const valid = await this.$refs.observer.validate() // boolean형으로 validate를 통과 여부 확인
       if (valid) {
-        this.$axios.post("/api/sign/in", this.formData).then(r => {
-          if (!r.data.success) return console.error(r.data.msg)
-          localStorage.setItem("token", r.data.token)
-          localStorage.setItem("user", JSON.stringify(r.data.user))
-          this.$store.commit("getToken", r.data.user)
+        this.$axios
+          .post("/api/sign/in", this.formData)
+          .then(r => {
+            if (!r.data.success) return console.error(r.data.msg)
+            localStorage.setItem("token", r.data.token)
+            localStorage.setItem("user", JSON.stringify(r.data.user))
+            this.$store.commit("getToken", r.data.user)
 
-          this.$router.push("/")
-        })
+            this.$router.push("/")
+          })
+          .catch(e => {
+            alert(e)
+          })
       }
     },
     clear() {

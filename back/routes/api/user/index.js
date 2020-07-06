@@ -6,6 +6,27 @@ const Product = require("../../../models/product");
 const crypto = require("crypto");
 const cfg = require("../../../../config/config")
 const axios = require('axios')
+const multer = require('multer');
+let upload = multer({ dest: 'public/userImg/' })
+let fs = require('fs');
+let filePath = 'C:/Users/lisha/Desktop/shop/UniquePets/back/public/userImg/';
+
+router.post('/userImage', upload.single('upLoadImage'), (req, res) => {
+
+    User.findById({ _id: req.body._id }).then(user => {
+        if (!user) return res.json({ success: false, msg: '존재하지 않는 유저입니다.' })
+        if (user.img) {
+            fs.unlinkSync(filePath.concat(user.img))
+        }
+        user.img = req.file.filename;
+        user.save()
+        return user;
+    }).then(u => {
+
+        res.json({ success: true, msg: '이미지 저장', user: u })
+    })
+})
+
 router.get('/:_id', (req, res) => {
     const { _id } = req.params;
 
@@ -48,15 +69,17 @@ router.post('/cart/delete', (req, res, next) => {
 
 router.post('/cart/purchase', (req, res, next) => {
     if (!req.body) res.json({ sucess: false, msg: '상품이 존재하지 않습니다.' })
-    const { cart, u_id } = req.body;
+    const { cart, u_id, totalPrice } = req.body;
 
     User.findById({ _id: u_id }).then(r => {
         r.cart = [];
         r.orderList.push({ list: cart, date: new Date() })
+        r.point -= totalPrice;
         r.save();
         res.json({ sucess: true, msg: '구매 완료', user: r });
     })
 })
+
 router.post('/update/address', (req, res, next) => {
     const { address, center, _id } = req.body;
     User.findById({ _id }).then(r => {

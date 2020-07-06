@@ -17,15 +17,20 @@ export default {
   data() {
     return {
       aboutUs: {}
-    };
+    }
   },
   created() {
-    this.$axios.get("/api/about/aboutUs").then(r => {
-      this.aboutUs = r.data[0];
-      this.aboutUs.content = this.aboutUs.content.split("\n").join("<br />");
-    });
+    this.$axios
+      .get("/api/about/aboutUs")
+      .then(r => {
+        this.aboutUs = r.data[0]
+        this.aboutUs.content = this.aboutUs.content.split("\n").join("<br />")
+      })
+      .catch(e => {
+        alert(e)
+      })
   }
-};
+}
 </script>
 <style scoped>
 .about {

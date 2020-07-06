@@ -54,6 +54,9 @@ export default {
           console.log(r)
           this.$router.push("/question")
         })
+        .catch(e => {
+          alert(e)
+        })
     }
   }
 }
